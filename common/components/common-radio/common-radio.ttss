@@ -1,0 +1,23 @@
+.radio-container {
+    width: 100%;
+}
+.radio-page-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.radio-weui-cells {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+.radio-weui-cell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    font-size: 14px;
+    color: #606266;
+    margin-right: 16px;
+}

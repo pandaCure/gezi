@@ -1,0 +1,15 @@
+<view class="intro">
+    <view 
+        tt:for="{{yesterdayFinishedWorkArray}}"
+        tt:key="{{item}}"
+        class="card-container-block"
+    >
+        <card taskIndex="{{item}}" bindmyevent="onFormEvent"></card>
+    </view>
+    <view class="yesterday-create-button" bindtap="createYesterdayEvent">
+        新建昨日任务
+    </view>
+    <view class="yesterday-create-button" bindtap="submit">
+        提交
+    </view>
+</view>

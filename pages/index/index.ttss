@@ -1,0 +1,15 @@
+.intro {
+  margin: 30px;
+  text-align: center;
+}
+.yesterday-create-button {
+  border: 1px dashed #ebebeb;
+  height: 48px;
+  text-align: center;
+  line-height: 48px;
+  color: #606266;
+  font-size: 14px;
+}
+.card-container-block {
+  margin-bottom: 12px;
+}

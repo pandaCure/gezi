@@ -1,0 +1,81 @@
+<view class="card-container">
+    <view>昨天工作任务</view>
+    <view class="card-label">
+        <view class="card-label-name">任务名称：</view>
+        <view class="card-input-block">
+            <input 
+                placeholder="请输入任务名称" 
+                class="input-block"
+                bindinput="handleWorkName" 
+            />
+        </view>
+    </view>
+    <view class="card-label">
+        <view class="card-label-name">任务状态：</view>
+        <view class="card-label-name card-picker-block">
+            <picker 
+                range="{{yesterdayPickerArray}}" 
+                value="{{yesterdayPickerChooseIndex}}"
+                bindchange="yesterdayPickerChange" 
+                bindcancel="yesterdayPickerCancel"
+            >
+            <view class="card-pcker-text">{{yesterdayPickerArray[yesterdayPickerChooseIndex]}}</view>  
+            </picker>
+        </view>
+    </view>
+    <common-radio 
+        bindmyevent="onCaseEvent" 
+        items="{{yesterdayCaseRadioItems}}" 
+        class="card-label" 
+        tt:if="{{showcaseShowBlock}}"
+    >
+        <view class="card-label-name">是否需要约showcase：</view>
+    </common-radio>
+    <view class="card-label" tt:if="{{showcasePeopleBlock}}">
+        <view class="card-label-name">showcase相关人员：</view>
+        <view class="card-input-block">
+            <input 
+                placeholder="请输入相关人员" 
+                class="input-block"
+                bindinput="handleShowcasePeople"  
+            />
+        </view>
+    </view>
+
+    <view class="card-label" tt:if="{{delayReasonBlock}}">
+        <view class="card-label-name card-label-start">delay原因：</view>
+        <view class="card-textarea-block">
+            <textarea 
+                placeholder="请输入delay原因"
+                class="teatarea-block"
+                bindinput="handleDelayReason"
+            />
+        </view>
+    </view>
+    <common-radio 
+        bindmyevent="onDelayEvent" 
+        items="{{delayWarnItems}}" 
+        class="card-label"
+        tt:if="{{delayWarnBlock}}"
+    >
+        <view class="card-label-name">是否有delay风险：</view>
+    </common-radio>
+    <view class="card-label" tt:if="{{delayWarnReasonBlock}}">
+        <view class="card-label-name card-label-start">delay原因：</view>
+        <view class="card-textarea-block">
+            <textarea 
+                placeholder="请输入delay原因" 
+                class="teatarea-block"
+                bindinput="handleDelayWarnReason" 
+            />
+        </view>
+    </view>
+    <common-radio 
+        bindmyevent="onHelpEvent" 
+        items="{{yesterdayCaseRadioItems}}" 
+        class="card-label"
+        tt:if="{{needHelpBlock}}"
+    >
+        <view class="card-label-name">是否需要人员协调：</view>
+    </common-radio>
+</view>

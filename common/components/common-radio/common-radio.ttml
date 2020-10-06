@@ -1,0 +1,17 @@
+<view class="radio-container">
+    <view class="radio-page-section">
+      <slot></slot>
+      <view class="weui-cells_after-title">
+        <radio-group bindchange="radioChange" class="radio-weui-cells">
+          <label class="radio-weui-cell weui-check__label" tt:for="{{items}}" tt:key="{{item.value}}">
+
+            <view class="weui-cell__hd">
+              <radio value="{{item.value}}"
+                checked="{{ item.checked }}"/>
+            </view>
+            <view class="weui-cell__bd">{{item.name}}</view>
+          </label>
+        </radio-group>
+      </view>
+    </view>
+</view>
