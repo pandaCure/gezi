@@ -1,5 +1,5 @@
 <view class="intro">
-    <view 
+    <view
         tt:for="{{yesterdayFinishedWorkArray}}"
         tt:key="{{item}}"
         class="card-container-block"
