@@ -1,7 +1,8 @@
 Page({
   data: {
     yesterdayFinishedWorkArray: [0],
-    yesterdayFormData: []
+    yesterdayFormData: [],
+    chooseGroupList: []
   },
   createYesterdayEvent: function () {
     const index = this.data.yesterdayFinishedWorkArray.length
@@ -18,6 +19,155 @@ Page({
     yesterdayFormData[e.detail.taskIndex] = e.detail.task
     this.setData({
       yesterdayFormData: yesterdayFormData
+    })
+  },
+  onLoad: function () {
+    // 获取tenant_access_token
+    const that = this
+    this.getAppAccessToken()
+    tt.request({
+      url:
+        'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal/',
+      data: {
+        app_id: 'cli_9fe7dbb70c2ed00c',
+        app_secret: 'bpFGhz14WWnQNQcogjS97eQ6CCfz2BNZ'
+      },
+      method: 'POST',
+      header: {
+        'content-type': 'application/json'
+      },
+      success(res) {
+        console.log(`request 调用成功 ${res}`)
+        const tenantAccessToken = res.data.tenant_access_token
+        that.getUserRobotList(tenantAccessToken)
+        // that.getUserLogin(tenantAccessToken)
+      },
+      fail(res) {
+        console.log(`request 调用失败`)
+      }
+    })
+  },
+  getAppAccessToken: function () {
+    const that = this
+    tt.request({
+      url:
+        'https://open.feishu.cn/open-apis/auth/v3/app_access_token/internal/',
+      data: {
+        app_id: 'cli_9fe7dbb70c2ed00c',
+        app_secret: 'bpFGhz14WWnQNQcogjS97eQ6CCfz2BNZ'
+      },
+      method: 'POST',
+      header: {
+        'content-type': 'application/json'
+      },
+      success(res) {
+        console.log(`获取 app_access_token`)
+        const appAccessToken = res.data.app_access_token
+        that.getUserLogin(appAccessToken)
+      },
+      fail(res) {
+        console.log(`request 调用失败`)
+      }
+    })
+  },
+  getUserRobotList: function (tenantAccessToken) {
+    const that = this
+    // 获取用户token
+    let task = tt.request({
+      url: 'https://open.feishu.cn/open-apis/chat/v4/list',
+      header: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${tenantAccessToken}`
+      },
+      success(res) {
+        console.log(`request 调用成功 ${res}`)
+        console.log(res)
+        that.setData({
+          chooseGroupList: res.data.data.groups
+        })
+      },
+      fail(res) {
+        console.log(`request 调用失败`)
+      }
+    })
+    console.log(task)
+  },
+  getUserInfo: function () {
+    tt.getUserInfo({
+      success(res) {
+        console.log(`getUserInfo 调用成功 ${res.userInfo}`)
+        console.log(res)
+      },
+      fail(res) {
+        console.log(res)
+        console.log(`getUserInfo 调用失败`)
+      }
+    })
+  },
+  getUserLogin: function (tenantAccessToken) {
+    const that = this
+    tt.login({
+      success(res) {
+        console.log(`login 调用成功 ${res.code} `)
+        console.log(res)
+        that.getUserInfo(tenantAccessToken, res.code)
+      },
+      fail(res) {
+        console.log(`login 调用失败`)
+      }
+    })
+  },
+  authorizeWithGuide: function (params) {
+    tt.getSetting({
+      success(res) {
+        let scopeValue = res.authSetting[params.scope]
+        if (undefined === scopeValue || null === scopeValue || scopeValue) {
+          params.success()
+        } else {
+          tt.showModal({
+            content: params.guideTips,
+            confirmText: '去设置',
+            success(res) {
+              if (res.confirm) {
+                tt.openSetting({
+                  success(res) {
+                    if (res.authSetting[params.scope]) {
+                      params.success()
+                    } else {
+                      params.fail()
+                    }
+                  }
+                })
+              } else {
+                params.fail()
+              }
+            }
+          })
+        }
+      }
+    })
+  },
+  getEnforceUserInfo: function (tenantAccessToken, code) {
+    console.log(tenantAccessToken)
+    console.log(code)
+    tt.request({
+      url: 'https://open.feishu.cn/open-apis/authen/v1/user_info',
+      data: {
+        user_access_token: tenantAccessToken,
+        grant_type: 'authorization_code',
+        code
+      },
+      method: 'POST',
+      header: {
+        'content-type': 'application/json'
+      },
+      success(res) {
+        console.log(`-------> 来了老弟`)
+        console.log(res)
+      },
+      fail(res) {
+        console.log(`request 调用失败`)
+      }
     })
   }
 })
