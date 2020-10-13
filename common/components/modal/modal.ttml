@@ -1,0 +1,13 @@
+<view class="modal_container">
+    <view class="modal_content">
+        <view class="modal_form">
+            <picker value="{{index}}" range="{{robotGroupsList}}"
+                bindchange="chooseGroupChange" bindcancel="chooseGroupCancel"
+                range-key="name">
+                <view class="modal_label">
+                    请选择发送的群：{{robotGroupsList[index]['name']}}
+                </view>
+            </picker>
+        </view>
+    </view>
+</view>

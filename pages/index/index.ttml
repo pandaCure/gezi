@@ -12,4 +12,5 @@
     <view class="yesterday-create-button" bindtap="submit">
         提交
     </view>
+    <modal robotGroupsList="{{robotGroupsList}}"></modal>
 </view>

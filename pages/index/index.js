@@ -2,7 +2,7 @@ Page({
   data: {
     yesterdayFinishedWorkArray: [0],
     yesterdayFormData: [],
-    chooseGroupList: []
+    robotGroupsList: []
   },
   createYesterdayEvent: function () {
     const index = this.data.yesterdayFinishedWorkArray.length
@@ -25,6 +25,7 @@ Page({
     // 获取tenant_access_token
     const that = this
     this.getAppAccessToken()
+    // this.getUserRobotList()
   },
   getTenantAccessToken: function (openId) {
     const that = this
@@ -42,7 +43,7 @@ Page({
       success(res) {
         console.log(`request 调用成功 ${res}`)
         const tenantAccessToken = res.data.tenant_access_token
-        // that.getUserRobotList(tenantAccessToken)
+        that.getUserRobotList(tenantAccessToken)
         // that.getUserLogin(tenantAccessToken)
         that.getBatchEnforceUserInfo(openId, tenantAccessToken)
       },
@@ -84,10 +85,10 @@ Page({
         Authorization: `Bearer ${tenantAccessToken}`
       },
       success(res) {
-        console.log(`request 调用成功 ${res}`)
+        console.log(`获取机器人群列表 调用成功 ${res}`)
         console.log(res)
         that.setData({
-          chooseGroupList: res.data.data.groups
+          robotGroupsList: res.data.data.groups
         })
       },
       fail(res) {
