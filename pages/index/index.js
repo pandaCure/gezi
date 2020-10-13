@@ -25,6 +25,9 @@ Page({
     // 获取tenant_access_token
     const that = this
     this.getAppAccessToken()
+  },
+  getTenantAccessToken: function (openId) {
+    const that = this
     tt.request({
       url:
         'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal/',
@@ -39,8 +42,9 @@ Page({
       success(res) {
         console.log(`request 调用成功 ${res}`)
         const tenantAccessToken = res.data.tenant_access_token
-        that.getUserRobotList(tenantAccessToken)
+        // that.getUserRobotList(tenantAccessToken)
         // that.getUserLogin(tenantAccessToken)
+        that.getBatchEnforceUserInfo(openId, tenantAccessToken)
       },
       fail(res) {
         console.log(`request 调用失败`)
@@ -110,7 +114,8 @@ Page({
       success(res) {
         console.log(`login 调用成功 ${res.code} `)
         console.log(res)
-        that.getUserInfo(tenantAccessToken, res.code)
+        // that.getUserInfo(tenantAccessToken, res.code)
+        that.getTokenLoginValidate(tenantAccessToken, res.code)
       },
       fail(res) {
         console.log(`login 调用失败`)
@@ -163,6 +168,67 @@ Page({
       },
       success(res) {
         console.log(`-------> 来了老弟`)
+        console.log(res)
+      },
+      fail(res) {
+        console.log(`request 调用失败`)
+      }
+    })
+  },
+  getTokenLoginValidate: function (appAccessToken, code) {
+    const that = this
+    tt.request({
+      url: 'https://open.feishu.cn/open-apis/mina/v2/tokenLoginValidate',
+      data: {
+        token: appAccessToken,
+        code
+      },
+      method: 'POST',
+      header: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${appAccessToken}`
+      },
+      success(res) {
+        console.log(`获取 getTokenLoginValidate userInfo`)
+        console.log(res)
+        const openId = res.data.data.employee_id
+        that.getTenantAccessToken(openId)
+      },
+      fail(res) {
+        console.log(`request 调用失败`)
+      }
+    })
+  },
+  getBatchEnforceUserInfo: function (openId, tenantAccessToken) {
+    const that = this
+    tt.request({
+      url: `https://open.feishu.cn/open-apis/contact/v1/user/batch_get?employee_ids=${openId}`,
+      method: 'POST',
+      header: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${tenantAccessToken}`
+      },
+      success(res) {
+        console.log(`获取 getBatchEnforceUserInfo userInfo`)
+        console.log(res)
+        const email = res.data.data.user_infos[0].email
+        console.log(email)
+        that.getTaskInfo(email)
+      },
+      fail(res) {
+        console.log(`request 调用失败`)
+      }
+    })
+  },
+  getTaskInfo: function (email) {
+    tt.request({
+      url: `https://teambition-task.yc345.tv/teambition/task/${email}`,
+      method: 'POST',
+      header: {
+        'content-type': 'application/json'
+      },
+      success(res) {
+        console.log(`获取 getBatchEnforceUserInfo userInfo`)
         console.log(res)
       },
       fail(res) {
