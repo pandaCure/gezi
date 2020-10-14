@@ -117,7 +117,8 @@ Component({
     tbTaskPickerChange(e) {
       const taskName = this.data.tbTaskList[e.detail.value]
       this.setData({
-        'task.common.task': taskName
+        'task.common.task': taskName,
+        tbTaskIndex: e.detail.value
       })
     },
     tbTaskPickerCancel(e) {},
@@ -127,7 +128,7 @@ Component({
       this.setData(
         {
           showcasePeopleBlock: !!currentCaseStatus.value,
-          showcaseStatus: currentCaseStatus.value
+          'task.2.showcaseStatus': currentCaseStatus.value
         },
         function () {
           this.triggerEvent('myevent', {

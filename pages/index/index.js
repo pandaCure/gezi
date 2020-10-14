@@ -16,14 +16,26 @@ Page({
   submit: function () {
     const params = {
       robotId: this.data.chooseGroupRobotId,
-      task: this.data.yesterdayFormData
+      result: this.data.yesterdayFormData
     }
-    console.log('上传参数打印：------》')
-    console.log(params)
+    tt.request({
+      url: `https://teambition-task.yc345.tv/message/card/${this.data.chooseGroupRobotId}`,
+      method: 'POST',
+      header: {
+        'content-type': 'application/json'
+      },
+      data: {
+        ...params
+      },
+      success(res) {
+        console.log('机器人 上传成功')
+      },
+      fail(res) {
+        console.log(`机器人 调用失败`)
+      }
+    })
   },
   onFormEvent: function (e) {
-    console.log('用户选择的表单信息')
-    console.log(e)
     this.data.yesterdayFormData[e.detail.taskIndex] = {
       ...e.detail.task[e.detail.yesterdayPickerChooseIndex],
       ...e.detail.task.common,
@@ -97,8 +109,6 @@ Page({
         Authorization: `Bearer ${tenantAccessToken}`
       },
       success(res) {
-        console.log(`获取机器人群列表 调用成功 ${res}`)
-        console.log(res)
         that.setData({
           robotGroupsList: res.data.data.groups
         })
@@ -176,8 +186,6 @@ Page({
         'content-type': 'application/json'
       },
       success(res) {
-        console.log(`获取 getBatchEnforceUserInfo userInfo`)
-        console.log(res)
         const tbTaskList = res.data.result
         that.setData({
           tbTaskList
@@ -189,7 +197,6 @@ Page({
     })
   },
   handleModalRobotId: function (e) {
-    console.log('***************> 获取到机器人群ID <********************')
     this.setData({
       chooseGroupRobotId: e.detail.chooseRobot
     })

@@ -39,7 +39,7 @@
     </view>
     <common-radio 
         bindmyevent="onCaseEvent" 
-        items="{{yesterdayCaseRadioItems}}" 
+        items="{{yesterdayCaseRadioItems}}"
         class="card-label" 
         tt:if="{{showcaseShowBlock}}"
     >
