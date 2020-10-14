@@ -4,7 +4,8 @@ Page({
     yesterdayFormData: [],
     robotGroupsList: [],
     chooseGroupRobotId: '',
-    tbTaskList: []
+    tbTaskList: [],
+    username: ''
   },
   createYesterdayEvent: function () {
     const index = this.data.yesterdayFinishedWorkArray.length
@@ -16,7 +17,8 @@ Page({
   submit: function () {
     const params = {
       robotId: this.data.chooseGroupRobotId,
-      result: this.data.yesterdayFormData
+      result: this.data.yesterdayFormData,
+      username: this.data.username
     }
     tt.request({
       url: `https://teambition-task.yc345.tv/message/card/${this.data.chooseGroupRobotId}`,
@@ -170,6 +172,9 @@ Page({
         console.log(res)
         const email = res.data.data.user_infos[0].email
         console.log(email)
+        that.setData({
+          username: res.data.data.user_infos[0].name
+        })
         that.getTaskInfo(email)
       },
       fail(res) {
