@@ -1,6 +1,14 @@
 Component({
   properties: {
-    taskIndex: Number
+    taskIndex: Number,
+    tbTaskList: {
+      type: Array,
+      observer: function (newVal, oldVal, changedPath) {
+        this.setData({
+          'task.common.task': newVal[0]
+        })
+      }
+    }
   },
   data: {
     yesterdayPickerArray: ['未开始', '进行中', '已完成', 'delay'],
@@ -33,7 +41,8 @@ Component({
     needHelpBlock: false, // 1 -> 约人
     task: {
       common: {
-        workName: ''
+        workName: '',
+        task: ''
       },
       0: {},
       1: {
@@ -48,7 +57,8 @@ Component({
       3: {
         delayReason: '' // delay原因
       }
-    }
+    },
+    tbTaskIndex: 0
   },
   methods: {
     yesterdayPickerChange(e) {
@@ -97,12 +107,20 @@ Component({
         function () {
           this.triggerEvent('myevent', {
             task: this.data.task,
-            taskIndex: this.data.taskIndex
+            taskIndex: this.data.taskIndex,
+            yesterdayPickerChooseIndex: this.data.yesterdayPickerChooseIndex
           })
         }
       )
     },
     yesterdayPickerCancel() {},
+    tbTaskPickerChange(e) {
+      const taskName = this.data.tbTaskList[e.detail.value]
+      this.setData({
+        'task.common.task': taskName
+      })
+    },
+    tbTaskPickerCancel(e) {},
     onCaseEvent(e) {
       // 自定义组件触发事件时提供的detail对象
       const currentCaseStatus = e.detail.items.find((v) => v.checked)
@@ -114,7 +132,8 @@ Component({
         function () {
           this.triggerEvent('myevent', {
             task: this.data.task,
-            taskIndex: this.data.taskIndex
+            taskIndex: this.data.taskIndex,
+            yesterdayPickerChooseIndex: this.data.yesterdayPickerChooseIndex
           })
         }
       )
@@ -129,7 +148,8 @@ Component({
         function () {
           this.triggerEvent('myevent', {
             task: this.data.task,
-            taskIndex: this.data.taskIndex
+            taskIndex: this.data.taskIndex,
+            yesterdayPickerChooseIndex: this.data.yesterdayPickerChooseIndex
           })
         }
       )
@@ -143,14 +163,13 @@ Component({
         function () {
           this.triggerEvent('myevent', {
             task: this.data.task,
-            taskIndex: this.data.taskIndex
+            taskIndex: this.data.taskIndex,
+            yesterdayPickerChooseIndex: this.data.yesterdayPickerChooseIndex
           })
         }
       )
     },
     handleWorkName(e) {
-      console.log(e.detail.value)
-      console.log(this.data.task)
       this.setData(
         {
           'task.common.workName': e.detail.value
@@ -158,7 +177,8 @@ Component({
         function () {
           this.triggerEvent('myevent', {
             task: this.data.task,
-            taskIndex: this.data.taskIndex
+            taskIndex: this.data.taskIndex,
+            yesterdayPickerChooseIndex: this.data.yesterdayPickerChooseIndex
           })
         }
       )
@@ -171,7 +191,8 @@ Component({
         function () {
           this.triggerEvent('myevent', {
             task: this.data.task,
-            taskIndex: this.data.taskIndex
+            taskIndex: this.data.taskIndex,
+            yesterdayPickerChooseIndex: this.data.yesterdayPickerChooseIndex
           })
         }
       )
@@ -184,7 +205,8 @@ Component({
         function () {
           this.triggerEvent('myevent', {
             task: this.data.task,
-            taskIndex: this.data.taskIndex
+            taskIndex: this.data.taskIndex,
+            yesterdayPickerChooseIndex: this.data.yesterdayPickerChooseIndex
           })
         }
       )
@@ -197,7 +219,8 @@ Component({
         function () {
           this.triggerEvent('myevent', {
             task: this.data.task,
-            taskIndex: this.data.taskIndex
+            taskIndex: this.data.taskIndex,
+            yesterdayPickerChooseIndex: this.data.yesterdayPickerChooseIndex
           })
         }
       )

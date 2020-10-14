@@ -4,13 +4,13 @@
         tt:key="{{item}}"
         class="card-container-block"
     >
-        <card taskIndex="{{item}}" bindmyevent="onFormEvent"></card>
+        <card taskIndex="{{item}}" bindmyevent="onFormEvent" tbTaskList="{{tbTaskList}}"></card>
     </view>
     <view class="yesterday-create-button" bindtap="createYesterdayEvent">
-        新建昨日任务
+        新建任务
     </view>
-    <view class="yesterday-create-button" bindtap="submit">
+    <view class="yesterday-create-button submit-button" bindtap="submit">
         提交
     </view>
-    <modal robotGroupsList="{{robotGroupsList}}"></modal>
+    <modal robotGroupsList="{{robotGroupsList}}" bindmyevent="handleModalRobotId"></modal>
 </view>

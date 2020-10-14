@@ -1,5 +1,5 @@
 <view class="card-container">
-    <view>昨天工作任务</view>
+    <view>工作任务</view>
     <view class="card-label">
         <view class="card-label-name">任务名称：</view>
         <view class="card-input-block">
@@ -20,6 +20,20 @@
                 bindcancel="yesterdayPickerCancel"
             >
             <view class="card-pcker-text">{{yesterdayPickerArray[yesterdayPickerChooseIndex]}}</view>  
+            </picker>
+        </view>
+    </view>
+    <view class="card-label">
+        <view class="card-label-name">关联任务：</view>
+        <view class="card-label-name card-picker-block">
+            <picker 
+                range="{{tbTaskList}}" 
+                value="{{tbTaskIndex}}"
+                bindchange="tbTaskPickerChange" 
+                bindcancel="tbTaskPickerCancel"
+                range-key="content"
+            >
+            <view class="card-pcker-text">{{tbTaskList[tbTaskIndex]['content']}}</view>  
             </picker>
         </view>
     </view>

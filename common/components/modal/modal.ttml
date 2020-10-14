@@ -1,4 +1,4 @@
-<view class="modal_container">
+<view class="modal_container" tt:if="{{isShowModal}}">
     <view class="modal_content">
         <view class="modal_form">
             <picker value="{{index}}" range="{{robotGroupsList}}"
@@ -8,6 +8,9 @@
                     请选择发送的群：{{robotGroupsList[index]['name']}}
                 </view>
             </picker>
+        </view>
+        <view class="button_block" bindtap="handleModalEvent">
+            <button type="primary">确定</button>
         </view>
     </view>
 </view>

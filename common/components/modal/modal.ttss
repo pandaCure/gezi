@@ -8,7 +8,6 @@
 }
 .modal_content {
     width: 400px;
-    height: 240px;
     background-color: white;
     border-radius: 8px;
     position: absolute;
@@ -17,10 +16,14 @@
     box-sizing: border-box;
     padding: 16px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
 }
 .modal_label {
     font-size: 14px;
     color: #606266;
 }
-.modal_form {}
+.button_block {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+}

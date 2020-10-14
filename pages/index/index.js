@@ -2,23 +2,35 @@ Page({
   data: {
     yesterdayFinishedWorkArray: [0],
     yesterdayFormData: [],
-    robotGroupsList: []
+    robotGroupsList: [],
+    chooseGroupRobotId: '',
+    tbTaskList: []
   },
   createYesterdayEvent: function () {
     const index = this.data.yesterdayFinishedWorkArray.length
     this.data.yesterdayFinishedWorkArray.push(index)
     this.setData({
-      yesterdayFinishedWorkArray: this.data.yesterdayFinishedWorkArray
+      yesterdayFinishedWorkArray: [...this.data.yesterdayFinishedWorkArray]
     })
   },
   submit: function () {
-    console.log(this.data.yesterdayFormData)
+    const params = {
+      robotId: this.data.chooseGroupRobotId,
+      task: this.data.yesterdayFormData
+    }
+    console.log('上传参数打印：------》')
+    console.log(params)
   },
   onFormEvent: function (e) {
-    const yesterdayFormData = []
-    yesterdayFormData[e.detail.taskIndex] = e.detail.task
+    console.log('用户选择的表单信息')
+    console.log(e)
+    this.data.yesterdayFormData[e.detail.taskIndex] = {
+      ...e.detail.task[e.detail.yesterdayPickerChooseIndex],
+      ...e.detail.task.common,
+      taskStatus: e.detail.yesterdayPickerChooseIndex
+    }
     this.setData({
-      yesterdayFormData: yesterdayFormData
+      yesterdayFormData: [...this.data.yesterdayFormData]
     })
   },
   onLoad: function () {
@@ -78,7 +90,7 @@ Page({
   getUserRobotList: function (tenantAccessToken) {
     const that = this
     // 获取用户token
-    let task = tt.request({
+    tt.request({
       url: 'https://open.feishu.cn/open-apis/chat/v4/list',
       header: {
         'content-type': 'application/json',
@@ -95,19 +107,6 @@ Page({
         console.log(`request 调用失败`)
       }
     })
-    console.log(task)
-  },
-  getUserInfo: function () {
-    tt.getUserInfo({
-      success(res) {
-        console.log(`getUserInfo 调用成功 ${res.userInfo}`)
-        console.log(res)
-      },
-      fail(res) {
-        console.log(res)
-        console.log(`getUserInfo 调用失败`)
-      }
-    })
   },
   getUserLogin: function (tenantAccessToken) {
     const that = this
@@ -120,59 +119,6 @@ Page({
       },
       fail(res) {
         console.log(`login 调用失败`)
-      }
-    })
-  },
-  authorizeWithGuide: function (params) {
-    tt.getSetting({
-      success(res) {
-        let scopeValue = res.authSetting[params.scope]
-        if (undefined === scopeValue || null === scopeValue || scopeValue) {
-          params.success()
-        } else {
-          tt.showModal({
-            content: params.guideTips,
-            confirmText: '去设置',
-            success(res) {
-              if (res.confirm) {
-                tt.openSetting({
-                  success(res) {
-                    if (res.authSetting[params.scope]) {
-                      params.success()
-                    } else {
-                      params.fail()
-                    }
-                  }
-                })
-              } else {
-                params.fail()
-              }
-            }
-          })
-        }
-      }
-    })
-  },
-  getEnforceUserInfo: function (tenantAccessToken, code) {
-    console.log(tenantAccessToken)
-    console.log(code)
-    tt.request({
-      url: 'https://open.feishu.cn/open-apis/authen/v1/user_info',
-      data: {
-        user_access_token: tenantAccessToken,
-        grant_type: 'authorization_code',
-        code
-      },
-      method: 'POST',
-      header: {
-        'content-type': 'application/json'
-      },
-      success(res) {
-        console.log(`-------> 来了老弟`)
-        console.log(res)
-      },
-      fail(res) {
-        console.log(`request 调用失败`)
       }
     })
   },
@@ -222,19 +168,30 @@ Page({
     })
   },
   getTaskInfo: function (email) {
+    const that = this
     tt.request({
       url: `https://teambition-task.yc345.tv/teambition/task/${email}`,
-      method: 'POST',
+      method: 'GET',
       header: {
         'content-type': 'application/json'
       },
       success(res) {
         console.log(`获取 getBatchEnforceUserInfo userInfo`)
         console.log(res)
+        const tbTaskList = res.data.result
+        that.setData({
+          tbTaskList
+        })
       },
       fail(res) {
         console.log(`request 调用失败`)
       }
+    })
+  },
+  handleModalRobotId: function (e) {
+    console.log('***************> 获取到机器人群ID <********************')
+    this.setData({
+      chooseGroupRobotId: e.detail.chooseRobot
     })
   }
 })

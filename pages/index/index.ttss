@@ -13,3 +13,12 @@
 .card-container-block {
   margin-bottom: 12px;
 }
+.submit-button {
+  margin-top: 16px;
+  border-radius: 8px;
+  background-color: rgba(53, 108, 254, 1);
+  font-size: 14px;
+  font-weight: 500;
+  color: #FFFFFF;
+  border: none;
+}
