@@ -22,3 +22,18 @@
   color: #FFFFFF;
   border: none;
 }
+.card-label-name {
+  font-size: 14px;
+  color: #606266;
+  vertical-align: middle;
+  line-height: 40px;
+  box-sizing: border-box;
+  text-align: right;
+  margin-right: 8px;
+}
+.card-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 12px;
+}

@@ -1,6 +1,7 @@
 {
     "usingComponents": {
         "card": "../../common/components/card/card",
-        "modal": "../../common/components/modal/modal"
+        "modal": "../../common/components/modal/modal",
+        "common-radio": "../../common/components/common-radio/common-radio"
     }
 }

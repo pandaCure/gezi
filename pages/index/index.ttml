@@ -6,6 +6,15 @@
     >
         <card taskIndex="{{item}}" bindmyevent="onFormEvent" tbTaskList="{{tbTaskList}}"></card>
     </view>
+    <view>
+        <common-radio 
+            bindmyevent="onTaskTipEvent" 
+            items="{{taskTipRadioItems}}"
+            class="card-label"
+        >
+            <view class="card-label-name">未完成任务定时提醒：</view>
+        </common-radio>
+    </view>
     <view class="yesterday-create-button" bindtap="createYesterdayEvent">
         新建任务
     </view>

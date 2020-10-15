@@ -5,7 +5,18 @@ Page({
     robotGroupsList: [],
     chooseGroupRobotId: '',
     tbTaskList: [],
-    username: ''
+    username: '',
+    taskTipRadioItems: [
+      {
+        value: 1,
+        name: '需要'
+      },
+      {
+        value: 0,
+        name: '不需要'
+      }
+    ],
+    currentTaskTip: 0
   },
   createYesterdayEvent: function () {
     const index = this.data.yesterdayFinishedWorkArray.length
@@ -18,7 +29,8 @@ Page({
     const params = {
       robotId: this.data.chooseGroupRobotId,
       result: this.data.yesterdayFormData,
-      username: this.data.username
+      username: this.data.username,
+      currentTaskTip: this.data.currentTaskTip
     }
     tt.request({
       url: `https://teambition-task.yc345.tv/message/card/${this.data.chooseGroupRobotId}`,
@@ -41,7 +53,7 @@ Page({
     this.data.yesterdayFormData[e.detail.taskIndex] = {
       ...e.detail.task[e.detail.yesterdayPickerChooseIndex],
       ...e.detail.task.common,
-      taskStatus: e.detail.yesterdayPickerChooseIndex
+      taskStatus: Number(e.detail.yesterdayPickerChooseIndex)
     }
     this.setData({
       yesterdayFormData: [...this.data.yesterdayFormData]
@@ -204,6 +216,13 @@ Page({
   handleModalRobotId: function (e) {
     this.setData({
       chooseGroupRobotId: e.detail.chooseRobot
+    })
+  },
+  onTaskTipEvent: function (e) {
+    const currentTaskTip = e.detail.items.find((v) => v.checked)
+    console.log(e)
+    this.setData({
+      currentTaskTip
     })
   }
 })

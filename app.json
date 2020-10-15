@@ -7,5 +7,10 @@
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "先知 - 任务同步助手",
     "navigationBarTextStyle":"black"
+  },
+  "ext": {
+    "defaultPages": {
+      "PCMode": "pages/index/index"
+    }
   }
 }
